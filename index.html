@@ -1,0 +1,520 @@
+
+<link rel="stylesheet" href="style.css">
+<div class="flex-parent-element">
+    <div class="flex-child-element">
+            <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none">
+            <label for="file" style="cursor: pointer;">Upload Image</label>
+            
+
+        <div id='out'></div>
+        <input type="file" id="selectFiles" value="Import" /><br />
+<button id="import">Import</button>
+        <canvas id="myCanvas" width="240" height="297" style="border:1px solid grey;"></canvas>
+        <div style="margin-top: 10%;">
+            <input type="checkbox"
+            id="switch"
+            class="checkbox" onclick="switchGender()" switched="false"/>
+             
+     <label for="switch" class="toggle" id="genderSwitchLegend">
+             <div style="font-family: Arial, Helvetica, sans-serif; font-size:small; margin-left: 10%; margin-top:2%">Žena</div> 
+        </div>
+        <div style="margin-top: 10%;">
+            <div style="display:inline;">
+                Mass
+            </div>
+            <div style="width: 50%; display:inline-block; min-width: 130px; border:solid black 1px;" contenteditable="true" id="PersonMass">&nbsp;&nbsp;&nbsp;</div>
+            <div style="display:inline;">Kg</div>
+        </div>
+        <div>
+            <button id="reread" type="button" onclick="readTable()">Reread table</button>
+        </div>
+        <div>
+            <button id="calculate" type="button" onclick="calculate_centerOfGravity()">calculate center of mass</button>
+        </div>
+        <div>
+            <button id="download" type="button" onclick="exportToJSON(event)">Download JSON</button>
+        </div>
+        <div>
+            <button id="refresh" type="button" onclick="refreshCanvas()">Refresh canvas</button>
+        </div>
+        
+
+</div>
+<div class="flex-child-element">
+
+    <table class="tg">
+    <thead>
+      <tr>
+        <th class="tg-0lax">Body part</th>
+        <th class="tg-0lax">Weight Men [%]</th>
+        <th class="tg-0lax">Weight Women [%]</th>
+        <th class="tg-0lax">data start[px]</th>
+        <th class="tg-0lax">data end [px]</th>
+        <th class="tg-0lax">prox. Mass center M %<br></th>
+        <th class="tg-0lax">prox. Mass center W %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="LHand" onclick="select(this.id)">
+        <td class="tg-0lax">Left Hand</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="LHand"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="LHand"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="LHand"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="LHand"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="LHand"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="LHand"></div></th>
+      </tr>
+      <tr id="LForearm" onclick="select(this.id)">
+        <td class="tg-0lax">Left Forearm</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="LForearm"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="LForearm"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="LForearm"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="LForearm"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="LForearm"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="LForearm"></div></th>
+      </tr>
+      <tr id="LUArm" onclick="select(this.id)">
+        <td class="tg-0lax">Left Upper arm</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="LUArm"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="LUArm"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="LUArm"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="LUArm"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="LUArm"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="LUArm"></div></th>
+      </tr>
+      <tr id="RHand" onclick="select(this.id)">
+        <td class="tg-0lax">Right Hand</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="RHand"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="RHand"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="RHand"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="RHand"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="RHand"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="RHand"></div></th>
+      </tr>
+      <tr id="RForearm" onclick="select(this.id)">
+        <td class="tg-0lax">Right Forearm</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="RForearm"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="RForearm"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="RForearm"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="RForearm"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="RForearm"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="RForearm"></div></th>
+      </tr>
+      <tr id="RUArm" onclick="select(this.id)">
+        <td class="tg-0lax">Right Upper arm</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="RUArm"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="RUArm"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="RUArm"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="RUArm"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="RUArm"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="RUArm"></div></th>
+      </tr>
+      <tr id="LFoot" onclick="select(this.id)">
+        <td class="tg-0lax">Left Foot</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="LFoot"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="LFoot"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="LFoot"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="LFoot"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="LFoot"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="LFoot"></div></th>
+      </tr>
+      <tr id="LShank" onclick="select(this.id)">
+        <td class="tg-0lax">Left Shank</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="LShank"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="LShank"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="LShank"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="LShank"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="LShank"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="LShank"></div></th>
+      </tr>
+      <tr id="LThigh" onclick="select(this.id)">
+        <td class="tg-0lax">Left Thigh</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="LThigh"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="LThigh"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="LThigh"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="LThigh"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="LThigh"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="LThigh"></div></th>
+      </tr>
+      <tr id="RFoot" onclick="select(this.id)">
+        <td class="tg-0lax">Right Foot</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="RFoot"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="RFoot"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="RFoot"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="RFoot"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="RFoot"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="RFoot"></div></th>
+      </tr>
+      <tr id="RShank" onclick="select(this.id)">
+        <td class="tg-0lax">Right Shank</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="RShank"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="RShank"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="RShank"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="RShank"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="RShank"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="RShank"></div></th>
+      </tr>
+      <tr id="RThigh" onclick="select(this.id)">
+        <td class="tg-0lax">Right Thigh</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="RThigh"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="RThigh"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="RThigh"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="RThigh"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="RThigh"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="RThigh"></div></th>
+      </tr>
+      <tr id="Head" onclick="select(this.id)">
+        <td class="tg-0lax">Head and neck</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="Head"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="Head"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="Head"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="Head"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="Head"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="Head"></div></th>
+      </tr>
+      <tr id="Thorax" onclick="select(this.id)">
+        <td class="tg-0lax">Thorax</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="Thorax"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="Thorax"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="Thorax"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="Thorax"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="Thorax"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="Thorax"></div></th>
+    </tr>
+      <tr id="Abdomen" onclick="select(this.id)">
+        <td class="tg-0lax">Abdomen</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="Abdomen"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="Abdomen"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="Abdomen"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="Abdomen"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="Abdomen"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="Abdomen"></div></th>
+      </tr>
+      <tr id="Pelvis" onclick="select(this.id)">
+        <td class="tg-0lax">Pelvis</td>
+        <td class="tg-0lax data weightsM"><div contenteditable="true" id="Pelvis"></div></td>
+        <td class="tg-0lax data weightsW"><div contenteditable="true" id="Pelvis"></div></td>
+        <th class="tg-0lax data start"><div contenteditable="true" id="Pelvis"></div></th>
+        <th class="tg-0lax data end"><div contenteditable="true" id="Pelvis"></div></th>
+        <th class="tg-0lax data centerM"><div contenteditable="true" id="Pelvis"></div></th>
+        <th class="tg-0lax data centerW"><div contenteditable="true" id="Pelvis"></div></th>
+    </tr>
+    </tbody>
+    </table>
+</div>
+</div>
+
+<script>
+    var newObrazek= new Image();
+    var ctx = "";
+    const img = document.getElementById("output");
+
+    lastSelected = "";
+    selected = "";
+    male=0;
+
+    dataObj={};
+
+    parts = [
+    "RHand",
+    "RForearm",
+    "RUArm",
+    "RFoot",
+    "RShank",
+    "RThigh",
+    "LHand",
+    "LForearm",
+    "LUArm",
+    "LFoot",
+    "LShank",
+    "LThigh",
+    "Head",
+    "Thorax",
+    "Abdomen",
+    "Pelvis"
+  ]
+    partColors = [
+    "#000000",
+    "#8b4513",
+    "#b03060",
+    "#008000",
+    "#00fa9a",
+    "#7fff00",
+    "#ff4500",
+    "#ffa500",
+    "#ffff54",
+    "#00ffff",
+    "#0000ff",
+    "#1e90ff",
+    "#b0c4de",
+    "#ff00ff",
+    "#eee8aa",
+    "#4b0082",
+    "#ee82ee"
+  ]
+
+    imgFile = "";  
+
+    classes = ["weightsM","weightsW","start","end","centerM","centerW"];
+    massPoints=Array(parts.length);
+    partMass=Array(parts.length)
+
+    points = {};
+    parts.forEach((partName)=>points[partName]=[[],[]]);
+    lastWrittenWasX=0;
+
+    male ? document.getElementById("genderSwitchLegend").innerText="Muž" : document.getElementById("genderSwitchLegend").innerText="Žena";
+
+    function switchGender(){
+        male= !male
+        male ? document.getElementById("genderSwitchLegend").innerText="Muž" : document.getElementById("genderSwitchLegend").innerText="Žena";
+
+    }
+
+    function select(id){
+        selected=document.querySelectorAll(`tr#${id}`)[0];
+        if(lastSelected){
+            lastSelected.style.backgroundColor="#00000000";
+        }
+        if(selected==lastSelected){
+            selected="";
+            lastWrittenWasX=0;
+            return;
+        }
+
+        selected.style.backgroundColor="#FF000033";
+        lastSelected=selected;
+    }
+
+    document.getElementById('import').onclick = function() {
+        var files = document.getElementById('selectFiles').files;
+      console.log(files);
+      if (files.length <= 0) {
+        return false;
+      }
+    
+      var fr = new FileReader();
+    
+      fr.onload = function(e) { 
+      console.log(e);
+        var result = JSON.parse(e.target.result);
+        dataObj=result;
+        setTable(dataObj);
+      }
+      fr.readAsText(files.item(0));
+    };
+    
+    
+
+    function readTable(){
+        classes.forEach((element=> dataObj[element]={}))
+        classes.forEach(function(element){
+            dataRows = document.getElementsByClassName(element);
+            for (let i = 0; i < dataRows.length; i++) {
+                dataObj[element][dataRows[i].firstChild.id]=dataRows[i].innerText;
+                }
+
+        });
+        mass = parseInt(document.getElementById("PersonMass").innerText);
+        dataObj["mass"]=mass;
+        console.log(dataObj);
+        return dataObj;
+    }
+
+    function readPoints(dataObj){
+        for(let i = 0;i<parts.length;i++){
+            points[parts[i]][0][0] = dataObj["start"][parts[i]].split(",").map(function(item) {
+                return parseInt(item, 10);
+            });
+            points[parts[i]][0][1]= dataObj["end"][parts[i]].split(",").map(function(item) {
+                return parseInt(item, 10);
+            });;
+        }
+    }
+
+    function setTable(dataObj){
+        classes.forEach(function(element){
+            dataRows = document.getElementsByClassName(element);
+            for (let i = 0; i < dataRows.length; i++) {
+                dataRows[i].firstChild.innerText= dataObj[element][dataRows[i].firstChild.id];
+                }     
+        });
+        document.getElementById("PersonMass").innerText=dataObj["mass"];
+        readPoints(dataObj);
+    }
+
+    var exportToJSON = function(event) {
+        dataObj=readTable();
+        console.log(dataObj)
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataObj));
+        var downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href",     dataStr);
+        downloadAnchorNode.setAttribute("download", "biomech.json");
+        document.body.appendChild(downloadAnchorNode); // required for firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+    };
+
+
+    function calculate_massPoints(){
+        for(let i = 0;i<parts.length;i++){
+            dataName = male ? "centerM" : "centerW" 
+            dataObj=readTable();
+            Ci = parseFloat(dataObj[dataName][parts[i]]);
+            if(isNaN(Ci)){
+                alert(`${parts[i]} Ci is NaN!`);
+                return;
+            }
+            Ci=Ci/100 /// %
+            start = points[parts[i]][0][0];
+            end = points[parts[i]][0][1];
+
+            xTi=start[0]+(end[0]-start[0])*Ci;
+            yTi=start[1]+(end[1]-start[1])*Ci;
+
+            massPoints[i]=[xTi,yTi];
+        }
+    }
+
+    function calculate_partMass(){
+        for(let i = 0;i<parts.length;i++){
+            dataName = male ? "weightsM" : "weightsW" 
+            dataObj=readTable();
+            pmass = parseFloat(dataObj[dataName][parts[i]])/100; //%
+            if(isNaN(pmass)){
+                alert(`${parts[i]} Part mass is NaN!`);
+                return;
+            }
+            if(isNaN(dataObj["mass"])){
+                alert("Mass is NaN!");
+                return;
+            }
+
+            partMass[i]=pmass*mass;
+        }
+    }
+
+    function calculate_centerOfGravity(){
+        calculate_partMass();
+        calculate_massPoints();
+        Xm=0;
+        Ym=0;
+        for(let i = 0;i<partMass.length;i++){
+            Xm+=massPoints[i][0]*partMass[i];
+            Ym+=massPoints[i][1]*partMass[i];
+        }
+        X=Xm/mass;
+        Y=Ym/mass;
+        centerOfMass=[X,Y];
+        drawPoint(ctx,X,Y,"Center of mass","#0000FF",10,1)
+        return centerOfMass;
+    }
+
+
+    function setTableStart(position, start){
+        document.querySelectorAll(`.start [id=${position}]`)[0].innerText=start
+    }
+
+    function setTableEnd(position, end){
+        document.querySelectorAll(`.end [id=${position}]`)[0].innerText=end
+    }
+
+    function drawPoint(context, x, y, label, color, size,primary) {
+        if (color == null) {
+          color = '#000';
+      }
+      if (size == null) {
+          size = 5;
+      }
+      console.log(x, y, label, color, size);
+        // to increase smoothing for numbers with decimal part
+        var pointX = Math.round(x);
+      var pointY = Math.round(y);
+      context.beginPath();
+      context.fillStyle = color;
+      context.arc(pointX, pointY, size, 0 * Math.PI, 2 * Math.PI);
+      context.fill();
+      if(primary){
+        context.lineWidth = 2;
+                context.strokeStyle = "black";
+                context.stroke();
+      }
+        if (label) {
+          var textX = pointX;
+            var textY = Math.round(pointY - size - 3);
+          context.font = 'Italic 14px Arial';
+          context.fillStyle = color;
+          context.textAlign = 'center';
+          context.fillText(label, textX, textY);
+      }
+  }
+
+  function refreshCanvas(){
+    console.log("REFRESHING!");
+    ctx.reset();
+    ctx.drawImage(newObrazek,0,0);
+    for(let i = 0;i<parts.length;i++){
+        start = points[parts[i]][0][0];
+        end = points[parts[i]][0][1];
+        if(start){
+            color = partColors[i]
+            drawPoint(ctx,start[0],start[1],"",color,5,1 );
+        }
+        if(end){
+            color = partColors[i]
+            drawPoint(ctx,end[0],end[1],"",color,5,0 );
+        }
+        if((typeof start !== 'undefined') && (typeof end!== 'undefined')){
+            console.log("KRESL9M");
+            ctx.beginPath();
+            ctx.moveTo(end[0],end[1]);
+            ctx.lineTo(start[0],start[1]);
+            ctx.strokeStyle="#000";
+            ctx.stroke();
+        }
+    }
+  }
+
+    var loadFile = function(event) {
+        const canvas = document.getElementById("myCanvas");
+    newObrazek.src= URL.createObjectURL(event.target.files[0])
+    imgFile=event.target.files[0];
+    newObrazek.onload=function(){
+    ctx=canvas.getContext("2d");
+    canvas.width=newObrazek.width;
+    canvas.height=newObrazek.height;
+    canvas.style.backgroundImage="url('"+newObrazek.src+"')";
+    ctx.drawImage(newObrazek,0,0);
+    refreshCanvas();
+    
+  }
+    };
+
+    function getCursorPosition(canvas, event) {
+        ctx=canvas.getContext("2d");
+        const rect = canvas.getBoundingClientRect()
+        const x = event.clientX - rect.left
+        const y = event.clientY - rect.top
+        if(selected){
+            position=selected.id;
+            if(!lastWrittenWasX){
+                points[position][0][0]=([x,y]);
+                setTableStart(position,[x,y]);
+                lastWrittenWasX=1;
+            }
+            else{
+                points[position][0][1]=[x,y];
+                setTableEnd(position,[x,y]);
+                lastWrittenWasX=0;
+            }
+            refreshCanvas();
+            console.log("x: " + x + " y: " + y)
+        }
+    }
+    canvas = document.getElementById("myCanvas");
+    canvas.addEventListener('mousedown', function(e) {
+        getCursorPosition(canvas, e)
+    })
+
+    
+</script>

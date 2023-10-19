@@ -1,0 +1,67 @@
+.flex-parent-element {
+    display: flex;
+    width: 50%;
+  }
+  
+  .flex-child-element {
+    flex: 1;
+    border: 2px solid blueviolet;
+    margin: 10px;
+  }
+  
+  .flex-child-element:first-child {
+    margin-right: 20px;
+  }
+  
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+.tg .tg-0lax{border-color:inherit;text-align:left;vertical-align:top}
+
+.toggle {
+    position : relative ;
+    display : inline-block;
+    width : 100px;
+    height : 20px;
+    background-color: #FF9999;
+    border-radius: 30px;
+    border: 2px solid #FFFFFF88;
+}
+       
+/* After slide changes */
+.toggle:after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #FFFFFF88;
+    top: 0px; 
+    left: 1px;
+    bottom: 1px;
+    transition:  all 0.5s;
+}
+       
+/* Toggle text */
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+       
+/* Checkbox checked effect */
+.checkbox:checked + .toggle::after {
+    left : 69px; 
+}
+       
+/* Checkbox checked toggle label bg color */
+.checkbox:checked + .toggle {
+    background-color: #3333FF;
+}
+       
+/* Checkbox vanished */
+.checkbox { 
+    display : none;
+}
