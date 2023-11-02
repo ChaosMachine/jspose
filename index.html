@@ -2,13 +2,15 @@
 <link rel="stylesheet" href="style.css">
 <div class="flex-parent-element">
     <div class="flex-child-element">
-            <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none">
-            <label for="file" style="cursor: pointer;">Upload Image</label>
-            
-
+      <div style="border:solid red 1px">
+            <input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" >
+            <button for="file" style="cursor: pointer;">Upload Image</button>
+            </div>  
+            <div style="border:solid green 1px">
         <div id='out'></div>
-        <input type="file" id="selectFiles" value="Import" /><br />
-<button id="import">Import</button>
+        <input type="file" accept=".json" id="selectFiles" value="Import" />
+<button id="import">Import .json</button>
+</div>
         <canvas id="myCanvas" width="240" height="297" style="border:1px solid grey;"></canvas>
         <div style="margin-top: 10%;">
             <input type="checkbox"
@@ -28,6 +30,9 @@
         <div>
             <button id="reread" type="button" onclick="readTable()">Reread table</button>
         </div>
+        <div>
+          <button id="cOm" type="button" onclick="calculate_massPoints()">Calculate and show centers of gravit</button>
+      </div>
         <div>
             <button id="calculate" type="button" onclick="calculate_centerOfGravity()">calculate center of mass</button>
         </div>
@@ -357,6 +362,7 @@
 
 
     function calculate_massPoints(){
+      calculate_partMass();
         for(let i = 0;i<parts.length;i++){
             dataName = male ? "centerM" : "centerW" 
             dataObj=readTable();
@@ -373,6 +379,7 @@
             yTi=start[1]+(end[1]-start[1])*Ci;
 
             massPoints[i]=[xTi,yTi];
+            drawPoint(ctx,xTi,yTi,partMass[i],"#FF0000",3,1);
         }
     }
 
